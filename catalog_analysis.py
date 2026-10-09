@@ -223,3 +223,21 @@ def common_actors(movie1: dict, movie2: dict) -> set[str]:
 def genres_only_in_one(movies_a: list[dict], movies_b: list[dict]) -> set[str]:
     return all_genres(movies_a) - all_genres(movies_b)
 
+# Этап 8. Итераторы и генераторы
+
+def iter_high_rated(movies: list[dict], min_rating: float = 8.0):
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
+def demo_high_rated(movies: list[dict]) -> None:
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+
+def total_duration_above_seven(movies: list[dict]) -> int:
+    return sum(
+        movie["duration_min"]
+        for movie in movies
+        if movie["rating"] > 7
+    )
+

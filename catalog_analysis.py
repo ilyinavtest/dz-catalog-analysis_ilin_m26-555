@@ -241,3 +241,40 @@ def total_duration_above_seven(movies: list[dict]) -> int:
         if movie["rating"] > 7
     )
 
+# Этап 9. Итоговый отчет
+
+def build_report(movies: list[dict]) -> None:
+    print("=" * 40)
+    print(" " * 11, "ОТЧЁТ ПО КАТАЛОГУ")
+    print("=" * 40)
+
+    avg = average_rating(movies)
+    oldest, newest, avg_age = catalog_age_stats(movies)
+    total_minutes = sum(movie["duration_min"] for movie in movies)
+    print("\nОбщая статистика:")
+    print(f"  Всего фильмов: {len(movies)}")
+    print(f"  Средний рейтинг: {avg}")
+    print(f"  Возраст самого старого фильма: {oldest} лет")
+    print(f"  Возраст самого нового фильма: {newest} лет")
+    print(f"  Средний возраст: {avg_age} лет")
+    print(f"  Суммарная длительность: {duration_in_hours(total_minutes)}")
+
+    print("\nТоп-3 фильма по рейтингу:")
+    for position, (title, rating) in enumerate(top_n_by_rating(movies, 3), start=1):
+        print(f"  {position}. {normalize_title(title)} — {rating}")
+
+    print("\nФильмов по жанрам:")
+    genre_counts = count_by_genre(movies)
+    sorted_genres = sorted(
+        genre_counts.items(),
+        key=lambda item: item[1],
+        reverse=True,
+    )
+    for genre, count in sorted_genres:
+        print(f"  {genre}: {count}")
+
+    print("\nВсе жанры каталога:")
+    print("  " + ", ".join(sorted(all_genres(movies))))
+
+if __name__ == "__main__":
+    build_report(movies)

@@ -106,3 +106,25 @@ def duration_in_hours(minutes: int) -> str:
     hours = minutes // 60
     remainder = minutes % 60
     return f"{hours}ч {remainder}м"
+
+# Этап 2. Условия и match
+
+def rating_tier(rating: float) -> str:
+    if rating >= 9:
+        tier = "шедевр"
+    elif rating >= 7:
+        tier = "хорошо"
+    elif rating >= 5:
+        tier = "средне"
+    else:
+        tier = "слабо"
+    return tier if rating >= 0 else "некорректная оценка"
+
+def decade_label(year: int) -> str:
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if year >= 2015:
+            return "недавние"
+        case _:
+            return "старые"

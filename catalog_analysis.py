@@ -1,3 +1,5 @@
+import math
+
 # Каталог стримингового сервиса. Датасет.
 
 movies = [
@@ -85,13 +87,12 @@ movies = [
 
 # Этап 1 Разминка: переменные, числа, math
 
-import math
-
 def average_rating(movies: list[dict]) -> float:
     if not movies:
         return 0.0
     total = sum(movie["rating"] for movie in movies)
     return round(total / len(movies), 1)
+
 
 def catalog_age_stats(movies: list[dict], current_year: int = 2026) -> tuple:
     if not movies:
@@ -101,6 +102,7 @@ def catalog_age_stats(movies: list[dict], current_year: int = 2026) -> tuple:
     newest = min(ages)
     average = math.ceil(sum(ages) / len(ages))
     return (oldest, newest, average)
+
 
 def duration_in_hours(minutes: int) -> str:
     hours = minutes // 60
@@ -120,6 +122,7 @@ def rating_tier(rating: float) -> str:
         tier = "слабо"
     return tier if rating >= 0 else "некорректная оценка"
 
+
 def decade_label(year: int) -> str:
     match year:
         case _ if year > 2020:
@@ -137,6 +140,7 @@ def print_non_comedy(movies: list[dict]) -> None:
             continue
         print(movie["title"])
 
+
 def find_first_masterpiece(movies: list[dict]) -> None:
     index = 0
     while index < len(movies):
@@ -146,6 +150,7 @@ def find_first_masterpiece(movies: list[dict]) -> None:
         index += 1
     else:
         print("Шедевров не найдено")
+
 
 def count_long_movies(movies: list[dict], threshold: int = 120) -> int:
     count = 0
@@ -164,6 +169,7 @@ def normalize_title(title: str) -> str:
 def make_slug(title: str) -> str:
     return normalize_title(title).lower().replace(" ", "-")
 
+
 def format_report_line(movie: dict) -> str:
     title = normalize_title(movie["title"])
     genres = ", ".join(sorted(movie["genres"]))
@@ -181,6 +187,7 @@ def titles_sorted_by_rating(movies: list[dict]) -> list[str]:
     sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
     return [movie["title"] for movie in sorted_movies]
 
+
 def top_n_by_rating(movies: list[dict], n: int = 3) -> list[tuple[str, float]]:
     sorted_movies = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
     return [(movie["title"], movie["rating"]) for movie in sorted_movies[:n]]
@@ -194,12 +201,14 @@ def count_by_genre(movies: list[dict]) -> dict[str, int]:
             counts[genre] = counts.get(genre, 0) + 1
     return counts
 
+
 def actor_filmography(movies: list[dict]) -> dict[str, list[str]]:
     filmography: dict[str, list[str]] = {}
     for movie in movies:
         for actor in movie["actors"]:
             filmography.setdefault(actor, []).append(movie["title"])
     return filmography
+
 
 def above_average_ratings(movies: list[dict]) -> dict[str, float]:
     avg = average_rating(movies)
@@ -217,8 +226,10 @@ def all_genres(movies: list[dict]) -> set[str]:
         genres |= movie["genres"]
     return genres
 
+
 def common_actors(movie1: dict, movie2: dict) -> set[str]:
     return set(movie1["actors"]) & set(movie2["actors"])
+
 
 def genres_only_in_one(movies_a: list[dict], movies_b: list[dict]) -> set[str]:
     return all_genres(movies_a) - all_genres(movies_b)
@@ -230,9 +241,11 @@ def iter_high_rated(movies: list[dict], min_rating: float = 8.0):
         if movie["rating"] >= min_rating:
             yield movie
 
+
 def demo_high_rated(movies: list[dict]) -> None:
     for movie in iter_high_rated(movies):
         print(format_report_line(movie))
+
 
 def total_duration_above_seven(movies: list[dict]) -> int:
     return sum(
